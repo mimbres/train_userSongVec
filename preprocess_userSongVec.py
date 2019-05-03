@@ -21,9 +21,9 @@ import pandas as pd
 import numpy as np
 from tqdm import trange, tqdm
 
-LASTFM_FILEPATH = './data/final_mapping.json'
+AUDIO_FEAT_WITH_SPOTIFY_ID_FILEPATH = './data/final_mapping.json'
 CF_ID_FILEPATH = './data/cf_features_spotify_id.json'
-#CF_FEAT_FILEPATH = './data/cf_features_spotify_id.npy'
+#CF_FEAT_FILEPATH = './data/cf_features_spotify_id.npy' # No modifications is required for this file!!
 OUTPUT_AUDIO_FEAT_FILEPATH = './data/audio_featmtx.npy'
 SAVED_SCALER_FILEPATH = './data/std_scaler.sav'
 
@@ -36,7 +36,7 @@ _dict = {'major': 1, 'minor': 0}
 cf_id = pd.read_json(CF_ID_FILEPATH)
 #cf_feat = np.load(CF_FEAT_FILEPATH)
 
-df_fm = pd.read_json(LASTFM_FILEPATH)[1]
+df_fm = pd.read_json(AUDIO_FEAT_WITH_SPOTIFY_ID_FILEPATH)[1]
 fm_id = list()
 for i in trange(len(df_fm)):
     fm_id.append(df_fm[i][0])
