@@ -11,8 +11,8 @@ from torch.utils.data.dataset import Dataset
 from torch.utils.data.dataloader import DataLoader
 #from utils.matrix_math import indices_to_one_hot
 
-TAG_PATH = './data/cf_features_spotify_id.npy'
-FEAT_PATH = './data/audio_featmtx.npy'
+#TAG_PATH = './data/cf_features_spotify_id.npy'
+#FEAT_PATH = './data/audio_featmtx.npy'
 NUM_TRSET = 100000
 # TRSET: 100,000
 # TSSET: 10,703
@@ -23,12 +23,16 @@ def CFDataloader( mtrain_mode=True,
                       normalization_factor=100,
                       batch_size=1,
                       shuffle=False,
-                      num_workers=4,
-                      pin_memory=True):
+                      num_workers=8,
+                      pin_memory=True,
+                      tag_path='./data/user_song_Feat_201904/cf_features_spotify_id.npy',
+                      feat_path='./data/audio_featmtx.npy'):
     
     dset = CFDataset(mtrain_mode=mtrain_mode,
                          normalization_factor=normalization_factor,
-                         data_sel=data_sel)
+                         data_sel=data_sel,
+                         tag_path=tag_path,
+                         feat_path=feat_path)
     dloader = DataLoader(dset,
                          batch_size=batch_size,
                          shuffle=shuffle,
@@ -42,7 +46,9 @@ class CFDataset(Dataset):
     def __init__(self,
                  mtrain_mode=True,
                  normalization_factor=100,
-                 data_sel=None):
+                 data_sel=None,
+                 tag_path=str(),
+                 feat_path=str()):
         
         self.mtrain_mode = mtrain_mode
         self.data_sel    = data_sel # NOT IMPLEMENTED YET
@@ -50,8 +56,13 @@ class CFDataset(Dataset):
         self.feat_all    = []
         
         # Import data
-        tag_all = np.load(TAG_PATH)
-        feat_all = np.load(FEAT_PATH)
+        tag_all = np.load(tag_path)
+        feat_all = np.load(feat_path)
+        
+        # Scaling 20190531
+        from sklearn.preprocessing import StandardScaler 
+        scaler = StandardScaler()
+        tag_all = scaler.fit_transform(tag_all)
         
         # Train/test split (8:2 by default)
         if self.mtrain_mode:

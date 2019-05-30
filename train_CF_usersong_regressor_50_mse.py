@@ -19,10 +19,13 @@ from utils.plot_save_png import regression_img_save
 cudnn.benchmark = True
 
 parser = argparse.ArgumentParser(description="cf_model")
-parser.add_argument("-s","--save_path",type=str, default="./save/exp_cf_mlp_reg1/")
+parser.add_argument("-s","--save_path",type=str, default="./save/exp_cf_50_mlp_reg1/")
+parser.add_argument("--cf_feat_path", type=str, 
+                    default="./data/user_song_feat_201905/features_spotify_id_50.npy")
+parser.add_argument("--audio_feat_path", type=str, default="./data/audio_featmtx_50.npy")
 parser.add_argument("-e","--epochs",type=int, default= 2000)
 parser.add_argument("-si","--save_interval",type=int, default=50)
-parser.add_argument("-lr","--learning_rate", type=float, default = 0.001)
+parser.add_argument("-lr","--learning_rate", type=float, default = 0.002)
 parser.add_argument("-b","--train_batch_size", type=int, default = 256)
 parser.add_argument("-tsb","--test_batch_size", type=int, default = 2048)
 parser.add_argument("-g","--gpu",type=int, default=0)
@@ -31,14 +34,18 @@ args = parser.parse_args()
 
 # Hyper Parameters
 INPUT_DIM = 29 
-EMBEDDING_DIM = 256#128
-OUTPUT_DIM = 200 
+EMBEDDING_DIM = 128 #256
+OUTPUT_DIM = 50 
 EPOCHS = args.epochs
 SAVE_INTERVAL = args.save_interval
 LEARNING_RATE = args.learning_rate
 TR_BATCH_SZ = args.train_batch_size
 TS_BATCH_SZ = args.test_batch_size
 GPU = args.gpu
+
+# Data directories
+CF_FEAT_PATH    = args.cf_feat_path 
+AUDIO_FEAT_PATH = args.audio_feat_path
 
 # Model-save directory
 MODEL_SAVE_PATH = args.save_path
@@ -73,7 +80,12 @@ scheduler = StepLR(optim, step_size=50, gamma=0.6)
 
 #%% Train/test methods
 def Train():
-    mtrain_loader = CFDataloader(mtrain_mode=True, normalization_factor=1, batch_size=TR_BATCH_SZ, shuffle=True)
+    mtrain_loader = CFDataloader(mtrain_mode=True,
+                                 normalization_factor=1,
+                                 batch_size=TR_BATCH_SZ,
+                                 shuffle=True,
+                                 tag_path=CF_FEAT_PATH,
+                                 feat_path=AUDIO_FEAT_PATH)
     
     for epoch in trange(0, EPOCHS, desc='epochs', position=0, ascii=True):
         tr_iter = iter(mtrain_loader)
@@ -116,7 +128,12 @@ def Train():
     return
 
 def Validate():
-    mval_loader = CFDataloader(mtrain_mode=False, normalization_factor=1, batch_size=TS_BATCH_SZ, shuffle=False)
+    mval_loader = CFDataloader(mtrain_mode=False,
+                               normalization_factor=1,
+                               batch_size=TS_BATCH_SZ,
+                               shuffle=False,
+                               tag_path=CF_FEAT_PATH,
+                               feat_path=AUDIO_FEAT_PATH)
     val_iter = iter(mval_loader)
     #total_corrects = 0
     total_items    = 0
