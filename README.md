@@ -29,10 +29,10 @@ git clone <THIS REPO>
 ```
 
 # /data
-* 1. audio_featmtx.npy: Equivalent with spotify audio features. This was created by running preprocess_userSongVec.py that connect final_mapping.json and cf_feature_spotify_id.json.
-* 2. cf_features_spotify_id.npy: (Andres) CF features
-* 3. cf_features_spotify_id.json: (Andres) Spotify id for CF features. After preprocessing, we can ignore this.
-* 4. final_mapping.json: (Andres) spotify audio features with spotify ID(but sorted differently from 3.)
+* audio_featmtx.npy: Equivalent with spotify audio features. This was created by running preprocess_userSongVec.py that connect final_mapping.json and cf_feature_spotify_id.json.
+* cf_features_spotify_id.npy: (Andres) CF features
+* cf_features_spotify_id.json: (Andres) Spotify id for CF features. After preprocessing, we can ignore this.
+* final_mapping.json: (Andres) spotify audio features with spotify ID(but sorted differently from 3.)
 
 # For training a model:
 * After running preprocess+userSongVec.py, we will need only two *.npy files (1 and 2 in the list above) for training!
