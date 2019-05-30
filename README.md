@@ -1,4 +1,8 @@
 # trainUserSongVec
+![85d04e1f-130d-466b-8880-43ee42c9993c_200x200](https://user-images.githubusercontent.com/26891722/58658328-41c1e700-835b-11e9-96f7-6865dd885fe5.png)
+
+[![PyPI](https://img.shields.io/badge/python-3.6%2C%203.7%20-blue.svg)]() 
+
 ## Dataset Info
 * CF vectors representing User-Song relations + correcsponding Spotify acoustic features. 
 * Song duplication issue:
@@ -16,6 +20,14 @@ We use 110703 songs out of 132439 (reducing 16.4%)
 ```
 
 
+# Install:
+* Install git-lfs by following guide: https://git-lfs.github.com/
+```
+git lfs install
+git config credential.helper store # Without this, we will have to type ID/password 3times... 
+git clone <THIS REPO>
+```
+
 # /data
 * 1. audio_featmtx.npy: Equivalent with spotify audio features. This was created by running preprocess_userSongVec.py that connect final_mapping.json and cf_feature_spotify_id.json.
 * 2. cf_features_spotify_id.npy: (Andres) CF features
@@ -24,3 +36,4 @@ We use 110703 songs out of 132439 (reducing 16.4%)
 
 # For training a model:
 * After running preprocess+userSongVec.py, we will need only two *.npy files (1 and 2 in the list above) for training!
+

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  2 14:34:50 2019
+Created on Tue AMay 31 14:34:50 2019
 
 @author: sungkyun
 
@@ -22,9 +22,9 @@ import numpy as np
 from tqdm import trange, tqdm
 
 AUDIO_FEAT_WITH_SPOTIFY_ID_FILEPATH = './data/final_mapping.json'
-CF_ID_FILEPATH = './data/user_song_Feat_201904/cf_features_spotify_id.json'
+CF_ID_FILEPATH = './data/user_song_feat_201905/features_spotify_id_20.json'
 #CF_FEAT_FILEPATH = './data/cf_features_spotify_id.npy' # No modifications is required for this file!!
-OUTPUT_AUDIO_FEAT_FILEPATH = './data/user_song_Feat_201904/audio_featmtx.npy'
+OUTPUT_AUDIO_FEAT_FILEPATH = './data/audio_featmtx_20.npy'
 SAVED_SCALER_FILEPATH = './data/std_scaler.sav'
 
 _dict = {'major': 1, 'minor': 0}
